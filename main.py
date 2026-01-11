@@ -2,7 +2,6 @@ import pygame
 from sys import exit
 
 from player import Player
-from enemy import Enemy
 
 class Main:
     def __init__(self):
@@ -14,8 +13,6 @@ class Main:
     def run(self):
         player_start_pos = self.screen.get_width() / 2, self.screen.get_height() / 2
         self.player = Player(5, 3, player_start_pos)
-        enemy_start_pos = self.screen.get_width() / 3, self.screen.get_height() / 2
-        self.enemy = Enemy(1, 2, enemy_start_pos)
 
         while True:
             self.handle_events()
@@ -27,7 +24,6 @@ class Main:
     def update_screen(self):
         self.screen.fill("white")
         self.player.draw(self.screen)
-        self.enemy.draw(self.screen)
         pygame.display.flip()
 
     def handle_events(self):
