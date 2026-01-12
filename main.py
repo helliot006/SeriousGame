@@ -1,52 +1,18 @@
-import pygame
-from sys import exit
+import pygame as pg
 
-from player import Player
+from settings import *
+from inputs import Inputs
+from game import Game
 
-class Main:
-    def __init__(self):
-        pygame.init()
-        self.screen = pygame.display.set_mode((1280, 1280))
-        self.clock = pygame.time.Clock()
+pg.init()
+pg.font.init()
 
+screen = pg.display.set_mode(WIN_SIZE)
+clock = pg.time.Clock()
+inputs = Inputs()
 
-    def run(self):
-        player_start_pos = self.screen.get_width() / 2, self.screen.get_height() / 2
-        self.player = Player(5, 3, player_start_pos)
-
-        while True:
-            self.handle_events()
-            self.update_sprites()
-            self.update_screen()
-            self.clock.tick(60)
-        pygame.quit()
-
-    def update_screen(self):
-        self.screen.fill("white")
-        self.player.draw(self.screen)
-        pygame.display.flip()
-
-    def handle_events(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
-        keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_z]:
-            self.player.pos.y -= 1
-        if keys[pygame.K_s]:
-            self.player.pos.y += 1
-        if keys[pygame.K_q]:
-            self.player.pos.x -= 1
-        if keys[pygame.K_d]:
-            self.player.pos.x += 1
-
-    def update_sprites(self):
-        pass
-
-
-main = Main()
-main.run()
+game = Game(screen, clock, inputs)
+game.run()
 
 
 

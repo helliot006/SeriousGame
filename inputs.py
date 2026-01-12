@@ -1,0 +1,40 @@
+import pygame as pg
+
+class Inputs:
+	def __init__(self):
+		self.quit = False
+		self.keys = {}
+
+		# self.keys[ACTION] = KeyInput(KeyA, KeyB, keyC, ...)
+		self.keys["left"] = KeyInput(pg.K_LEFT, pg.K_a, pg.K_q)
+		self.keys["right"] = KeyInput(pg.K_RIGHT, pg.K_d)
+		self.keys["up"] = KeyInput(pg.K_UP, pg.K_w, pg.K_z)
+		self.keys["down"] = KeyInput(pg.K_DOWN, pg.K_s)
+		self.keys["interract"] = KeyInput(pg.K_e, pg.K_SPACE)
+
+	def update(self):
+		# updates the value of each input according to their assignated keys
+		for key_input in self.keys.values():
+			key_input.keydown = False
+			key_input.keyup = False
+		for event in pg.event.get():
+			if event.type == pg.QUIT:
+				self.quit = True
+			if event.type == pg.KEYDOWN:
+				for key_input in self.keys.values():
+					if event.key in key_input.keys:
+						key_input.keydown = True
+						key_input.pressed = True
+			if event.type == pg.KEYUP:
+				for key_input in self.keys.values():
+					if event.key in key_input.keys:
+						key_input.keyup = True
+						key_input.pressed = False
+
+
+class KeyInput:
+	def __init__(self, *keys):
+		self.keys = keys		# array of pg.keyCodes, all the keys that perform the same actions (ex: left arrow, a, q, ...)
+		self.keydown = False	# status of the action: the button was just pressed at this tick
+		self.pressed = False	# status: the button is being pressed
+		self.keyup = False		# status of the action: the button was just released at this tick
